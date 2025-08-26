@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuaderno de Juntas - Julio 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        /* Importación de la fuente Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        /* Definición de la Paleta de Colores Original */
+        :root {
+            --color-dark-blue: #023047;
+            --color-primary-blue: #219ebc;
+            --color-light-blue: #8ecae6;
+            --color-accent-yellow: #ffb703;
+            --color-accent-orange: #fd9e02;
+            --color-alert-orange: #fb8500;
+            
+            /* Paleta Original para Calendario */
+            --junta-bogota: #ffb703;      /* Dorado */
+            --junta-manizales: #003249;  /* Azul Oscuro */
+            --junta-medellin: #00A896;    /* Verde Esmeralda */
+        }
+
+        /* Reset y estilos base */
+        *, ::before, ::after { box-sizing: border-box; border-width: 0; border-style: solid; border-color: #e5e7eb; }
+        html { line-height: 1.5; -webkit-text-size-adjust: 100%; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        body { margin: 0; line-height: inherit; background-color: #f8f9fa; color: var(--color-dark-blue); }
+        h1, h2, h3, p, ul, table { margin: 0; padding: 0; }
+        h1 { font-size: 2.25rem; font-weight: 800; }
+        h2 { font-size: 1.5rem; font-weight: 700; }
+        h3 { font-size: 1.25rem; font-weight: 700; }
+        table { text-indent: 0; border-color: inherit; border-collapse: collapse; }
+        .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
+        @media (min-width: 640px) { .container { max-width: 640px; padding-left: 1.5rem; padding-right: 1.5rem; } }
+        @media (min-width: 768px) { .container { max-width: 768px; } }
+        @media (min-width: 1024px) { .container { max-width: 1024px; padding-left: 2rem; padding-right: 2rem; } }
+
+        /* Componentes */
+        .card { background-color: white; border-radius: 0.75rem; box-shadow: 0 4px 12px -1px rgb(0 0 0 / 0.07); transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px -3px rgb(0 0 0 / 0.07); }
+        .progress-bar { background-color: #e5e7eb; border-radius: 9999px; overflow: hidden; height: 1rem; }
+        .progress-bar-inner { height: 100%; border-radius: 9999px; text-align: center; color: white; font-weight: 600; font-size: 0.75rem; line-height: 1rem;}
+        .custom-scrollbar::-webkit-scrollbar { height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #a8a29e; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #78716c; }
+
+        /* Tabla de Contenido Original */
+        .toc-card {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .toc-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px -4px rgb(0 0 0 / 0.15);
+        }
+
+        .toc-1 { background-color: #ccdbdc; color: #003249; } .toc-1:hover { background-color: #003249; color: #ffffff; }
+        .toc-2 { background-color: #9ad1d4; color: #003249; } .toc-2:hover { background-color: #003249; color: #ffffff; }
+        .toc-3 { background-color: #80ced7; color: #003249; } .toc-3:hover { background-color: #003249; color: #ffffff; }
+        .toc-4 { background-color: #007ea7; color: #ffffff; } .toc-4:hover { background-color: #003249; color: #ffffff; }
+        .toc-5 { background-color: #003249; color: #ffffff; } .toc-5:hover { background-color: #007ea7; color: #ffffff; }
+        .toc-6 { background-color: #ccdbdc; color: #003249; } .toc-6:hover { background-color: #003249; color: #ffffff; }
+        .toc-7 { background-color: #9ad1d4; color: #003249; } .toc-7:hover { background-color: #003249; color: #ffffff; }
+        .toc-8 { background-color: #80ced7; color: #003249; } .toc-8:hover { background-color: #003249; color: #ffffff; }
+        .toc-9 { background-color: #007ea7; color: #ffffff; } .toc-9:hover { background-color: #003249; color: #ffffff; }
+        .toc-10 { background-color: #003249; color: #ffffff; } .toc-10:hover { background-color: #007ea7; color: #ffffff; }
+        .toc-11 { background-color: #ccdbdc; color: #003249; } .toc-11:hover { background-color: #003249; color: #ffffff; }
+        .toc-12 { background-color: #9ad1d4; color: #003249; } .toc-12:hover { background-color: #003249; color: #ffffff; }
+
+        /* Estilos de texto */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-right { text-align: right; }
+        .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
+        .font-semibold { font-weight: 600; }
+        .font-medium { font-weight: 500; }
+        .text-gray-500 { color: #6b7280; }
+        .text-gray-600 { color: #4b5563; }
+        .text-dark-blue { color: var(--color-dark-blue); }
+        .text-primary-blue { color: var(--color-primary-blue); }
+        .text-accent-orange { color: var(--color-accent-orange); }
+        .text-alert-orange { color: var(--color-alert-orange); }
+        .text-white { color: white; }
+        .uppercase { text-transform: uppercase; }
+        .whitespace-nowrap { white-space: nowrap; }
+
+        /* Tamaños de texto */
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+        
+        /* Fondos con la paleta original */
+        .bg-light-blue { background-color: var(--color-light-blue); }
+        .bg-accent-yellow { background-color: var(--color-accent-yellow); }
+        .bg-primary-blue { background-color: var(--color-primary-blue); }
+        .bg-accent-orange { background-color: var(--color-accent-orange); }
+        .bg-alert-orange { background-color: var(--color-alert-orange); }
+        .bg-dark-blue { background-color: var(--color-dark-blue); }
+        .bg-white { background-color: #fff; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .bg-blue-subtle { background-color: #e3f3fa; }
+        .bg-orange-subtle { background-color: #fff8e1; }
+        .bg-yellow-subtle { background-color: #fffbeb; }
+        .bg-red-subtle { background-color: #fff5f5; }
+        
+        /* Bordes con la paleta original */
+        .border-primary-blue { border-color: var(--color-primary-blue); }
+        .border-alert-orange { border-color: var(--color-alert-orange); }
+        .border-l-4 { border-left-width: 4px; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .rounded-full { border-radius: 9999px; }
+
+        /* Layout */
+        .flex { display: flex; }
+        .grid { display: grid; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 0.5rem; }
+        .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+        .space-y-6 > :not([hidden]) ~ :not([hidden]) { margin-top: 1.5rem; }
+        .space-x-4 > :not([hidden]) ~ :not([hidden]) { margin-left: 1rem; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .p-2 { padding: 0.5rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .py-1 { padding-top: 0.125rem; padding-bottom: 0.125rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .pl-8 { padding-left: 2rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .ml-2 { margin-left: 0.5rem; }
+        .w-full { width: 100%; }
+        .h-4 { height: 1rem; }
+        .h-5 { height: 1.25rem; }
+        .w-5 { width: 1.25rem; }
+        .h-6 { height: 1.5rem; }
+        .w-6 { width: 1.5rem; }
+        .h-16 { height: 4rem; }
+        .w-16 { width: 4rem; }
+        .min-w-\[1000px\] { min-width: 1000px; }
+        .min-w-\[600px\] { min-width: 600px; }
+        .overflow-x-auto { overflow-x: auto; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        
+        /* Calendar Styles */
+        .calendar-section-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef2f5 100%);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #d1d9e6;
+        }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 768px) { .calendar-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1280px) { .calendar-grid { grid-template-columns: repeat(6, 1fr); } }
+
+        .month-card { background-color: white; border-radius: 0.5rem; padding: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e5e7eb; }
+        .month-title { 
+            font-weight: 700; 
+            text-align: center; 
+            margin-bottom: 0.75rem; 
+            color: var(--color-dark-blue); 
+            font-size: 1rem;
+            background-color: #eef2f5; 
+            padding: 0.25rem 0;
+            border-radius: 0.25rem;
+        }
+        .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.125rem; text-align: center; }
+        .day-header { font-weight: 600; font-size: 0.625rem; color: #6b7280; }
+        .day { font-size: 0.75rem; padding: 0.125rem; border-radius: 9999px; line-height: 1.25rem; }
+        .junta-bogota { background-color: var(--junta-bogota); color: white; font-weight: 700; }
+        .junta-manizales { background-color: var(--junta-manizales); color: white; font-weight: 700; }
+        .junta-medellin { background-color: var(--junta-medellin); color: white; font-weight: 700; }
+        
+        .legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 1rem; padding: 0.75rem; background-color: white; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .legend-item { display: flex; align-items: center; font-size: 0.875rem; font-weight: 500;}
+        .legend-color { width: 1rem; height: 1rem; border-radius: 9999px; margin-right: 0.5rem; border: 1px solid rgba(0,0,0,0.1); }
+        .legend-dot { width: 14px; height: 14px; border-radius: 0.25rem; display: inline-block; margin-right: 8px; flex-shrink: 0; }
+
+        /* Agenda Styles */
+        .agenda-timeline { position: relative; padding: 1rem 0; }
+        .agenda-timeline::before {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #e0f2fa;
+            border-radius: 2px;
+        }
+        .agenda-item { display: flex; gap: 1.25rem; }
+        .agenda-icon-container { flex-shrink: 0; width: 2.75rem; height: 2.75rem; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background-color: var(--color-primary-blue); color: white; border: 4px solid #f8f9fa; z-index: 10; }
+        .agenda-content { background-color: white; padding: 1rem; border-radius: 0.5rem; width: 100%; border-left: 4px solid var(--color-primary-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        .agenda-time { font-weight: 700; color: var(--color-dark-blue); }
+        .agenda-activity { font-weight: 600; font-size: 1.125rem; margin-top: 0.25rem; }
+        .agenda-sub-item { margin-top: 0.5rem; padding-left: 1rem; color: #4b5563; font-size: 0.875rem; border-left: 2px solid #e0f2fa;}
+        .agenda-sub-item li { margin-bottom: 0.25rem; }
+        
+        .kpi-card {
+            background-color: white;
+            border-left-width: 4px;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .md\:col-span-2 { grid-column: span 2 / span 2; }
+            .md\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        }
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .lg\:col-span-2 { grid-column: span 2 / span 2; }
+            .lg\:col-span-3 { grid-column: span 3 / span 3; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-dark-blue">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-dark-blue">Cuaderno de Juntas</h1>
+            <p class="text-lg text-gray-500 mt-1">Cierre a Julio 2025 | Sesión de Junta No. 518</p>
+        </header>
+
+        <!-- Tabla de Contenido -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4">Contenido del Informe</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <a href="#calendario" class="toc-card toc-1">Calendario</a>
+                <a href="#agenda" class="toc-card toc-2">Agenda del Día</a>
+                <a href="#seguimiento" class="toc-card toc-3">Seguimiento Acta</a>
+                <a href="#kpis" class="toc-card toc-4">KPIs Consolidados</a>
+                <a href="#resultados-sulfurico" class="toc-card toc-5">E.R. Sulfúrico</a>
+                <a href="#resultados-qc" class="toc-card toc-6">E.R. Q.C. Colombia</a>
+                <a href="#resultados-ecovitta" class="toc-card toc-7">E.R. Ecovitta</a>
+                <a href="#resultados-consolidado" class="toc-card toc-8">E.R. Consolidado</a>
+                <a href="#resultados-qcmx" class="toc-card toc-9">E.R. QCMX</a>
+                <a href="#logros-desafios" class="toc-card toc-10">Logros y Desafíos</a>
+                <a href="#desempeno-linea" class="toc-card toc-11">Desempeño por Línea</a>
+                <a href="#cartera-colombia" class="toc-card toc-12">Análisis estado de Cartera</a>
+            </div>
+        </section>
+
+
+        <!-- Calendar Section -->
+        <section id="calendario" class="mb-8 card calendar-section-card">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                Calendario de Juntas 2025
+            </h2>
+            <div class="legend">
+                <div class="legend-item"><span class="legend-color" style="background-color: var(--junta-bogota);"></span>Bogotá</div>
+                <div class="legend-item"><span class="legend-color" style="background-color: var(--junta-manizales);"></span>Manizales</div>
+                <div class="legend-item"><span class="legend-color" style="background-color: var(--junta-medellin);"></span>Medellín</div>
+            </div>
+            <div class="calendar-grid">
+                <!-- Enero -->
+                <div class="month-card"><h3 class="month-title">Enero</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day junta-bogota">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+                <!-- Febrero -->
+                <div class="month-card"><h3 class="month-title">Febrero</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div></div><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day junta-bogota">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div></div></div>
+                <!-- Marzo -->
+                <div class="month-card"><h3 class="month-title">Marzo</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div></div><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day junta-bogota">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+                <!-- Abril -->
+                <div class="month-card"><h3 class="month-title">Abril</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day junta-bogota">29</div><div class="day">30</div></div></div>
+                <!-- Mayo -->
+                <div class="month-card"><h3 class="month-title">Mayo</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day junta-bogota">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+                <!-- Junio -->
+                <div class="month-card"><h3 class="month-title">Junio</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div></div><div></div><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day junta-bogota">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div></div></div>
+                <!-- Julio -->
+                <div class="month-card"><h3 class="month-title">Julio</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day junta-bogota">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+                <!-- Agosto -->
+                <div class="month-card"><h3 class="month-title">Agosto</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day junta-bogota">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+                <!-- Septiembre -->
+                <div class="month-card"><h3 class="month-title">Septiembre</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day junta-manizales">30</div></div></div>
+                <!-- Octubre -->
+                <div class="month-card"><h3 class="month-title">Octubre</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day junta-bogota">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+                <!-- Noviembre -->
+                <div class="month-card"><h3 class="month-title">Noviembre</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div></div><div></div><div></div><div></div><div></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day junta-bogota">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div></div></div>
+                <!-- Diciembre -->
+                <div class="month-card"><h3 class="month-title">Diciembre</h3><div class="days-grid"><span class="day-header">Lu</span><span class="day-header">Ma</span><span class="day-header">Mi</span><span class="day-header">Ju</span><span class="day-header">Vi</span><span class="day-header">Sá</span><span class="day-header">Do</span><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day junta-medellin">9</div><div class="day">10</div><div class="day">11</div><div class="day">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div></div></div>
+            </div>
+        </section>
+
+        <!-- Agenda Section -->
+        <section id="agenda" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-2 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                Agenda del Día
+            </h2>
+            <p class="text-center font-semibold text-lg text-gray-600 mb-6">Martes, 22 de Julio 2025 - 8:00 a.m. | Gun Club</p>
+            <div class="agenda-timeline">
+                <div class="agenda-item mb-6"><div class="agenda-icon-container"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div class="agenda-content"><p class="agenda-time">8:00 a.m.</p><p class="agenda-activity">Apertura</p></div></div>
+                <div class="agenda-item mb-6"><div class="agenda-icon-container"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg></div><div class="agenda-content"><p class="agenda-time">8:10 a.m.</p><p class="agenda-activity">Lectura y revisión del acta anterior</p></div></div>
+                <div class="agenda-item mb-6"><div class="agenda-icon-container"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg></div><div class="agenda-content"><p class="agenda-time">8:30 a.m.</p><p class="agenda-activity">Presentación Resultados</p><ul class="agenda-sub-item"><li>Desempeño Comercial / Volúmenes</li><li>Rentabilidad</li><li>Deuda</li><li>Desarrollo México y Ecovitta (C. Angarita) - 10:30 a.m.</li><li>Capitalización Q.C. y Flujo de Caja (Juan Pablo R)</li></ul></div></div>
+                <div class="agenda-item mb-6"><div class="agenda-icon-container"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></div><div class="agenda-content"><p class="agenda-time">11:45 a.m.</p><p class="agenda-activity">Puntos Varios</p></div></div>
+                <div class="agenda-item"><div class="agenda-icon-container"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 3v18H3V3h18zM5 7h14M5 12h14M5 17h14"></path></svg></div><div class="agenda-content"><p class="agenda-time">12:15 p.m.</p><p class="agenda-activity">Almuerzo</p></div></div>
+            </div>
+        </section>
+
+        <!-- Puntos Estratégicos Section -->
+        <section id="seguimiento" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                Principales Puntos de Seguimiento al Acta
+            </h2>
+            <div class="space-y-4">
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-primary-blue">[Mercado Sulfúrico]</span> Se solicita a la gerencia revise opciones de nuevos usos del ácido sulfúrico, dado que el mercado se encuentra sin crecimiento.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-primary-blue">[Estrategia Comercial LAS]</span> Revisar con UNILEVER la posibilidad de aumentar producción desde Ecuador. Se confirma que ALICORP de Perú ahora suministra a UNILEVER El Salvador.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-primary-blue">[Estrategia Comercial LAS]</span> Analizar con UNILEVER una estructura de precios por escalas de volumen para incentivar mayores compras locales.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-primary-blue">[Seguros y Competencia]</span> Revisar nuevamente con SECSE la cobertura de seguro para PQP y analizar los precios bajos de CEPSA. Posteriormente, contactar a P.Q.P al más alto nivel.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-accent-orange">[Operaciones México]</span> En caso de decidir el traslado del reactor de LAS desde Colombia, analizar la opción entre capitalización o venta del activo.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-accent-orange">[Reportes Financieros]</span> Reestructurar la presentación del Flujo de Caja para mostrar secciones de Operación, Finanzas, Impuestos y Dividendos.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-accent-orange">[Reportes de Negocio]</span> Agregar el margen bruto a las gráficas de desempeño por aplicación o grupo de clientes, que actualmente solo muestran volúmenes.</p>
+                </div>
+                <div class="card p-4">
+                    <p class="text-gray-600"><span class="font-semibold text-dark-blue">[Gobierno Corporativo]</span> La inclusión de Juan Pablo como representante legal suplente se realizará posterior a la capitalización y verificación de estatutos.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- KPIs Section -->
+        <section id="kpis" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                Indicadores Clave Consolidados - Colombia
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Ingresos -->
+                <div class="card p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-semibold text-lg text-gray-600">Ingresos Netos (Acumulado)</h3>
+                        <span class="p-2 rounded-full" style="background-color: #e3f3fa; color: var(--color-primary-blue)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01" /></svg>
+                        </span>
+                    </div>
+                    <p class="text-4xl font-bold text-dark-blue">$209,380</p>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500">vs Presupuesto $191,417</p>
+                        <div class="flex items-center text-primary-blue font-semibold mt-1">
+                            <span>109% Cumplimiento</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 11.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L10 10.586l3.293-3.293A1 1 0 0112 7z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                </div>
+                <!-- Utilidad Bruta -->
+                <div class="card p-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-semibold text-lg text-gray-600">Utilidad Bruta (Acumulado)</h3>
+                        <span class="p-2 rounded-full" style="background-color: #fff8e1; color: var(--color-accent-orange)">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6" /></svg>
+                        </span>
+                    </div>
+                    <p class="text-4xl font-bold text-dark-blue">$39,775</p>
+                    <div class="mt-4">
+                         <p class="text-sm text-gray-500">vs Presupuesto $39,389</p>
+                        <div class="flex items-center text-primary-blue font-semibold mt-1">
+                            <span>101% Cumplimiento</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 11.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L10 10.586l3.293-3.293A1 1 0 0112 7z" clip-rule="evenodd"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <!-- Utilidad Neta -->
+                <div class="card p-6">
+                     <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-semibold text-lg text-gray-600">Utilidad Neta (Acumulado)</h3>
+                        <span class="p-2 rounded-full" style="background-color: #e3f3fa; color: var(--color-primary-blue)">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                        </span>
+                    </div>
+                    <p class="text-4xl font-bold text-dark-blue">$16,819</p>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500">vs Presupuesto $17,187</p>
+                        <div class="flex items-center text-alert-orange font-semibold mt-1">
+                            <span>98% Cumplimiento</span>
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12 13a1 1 0 100 2h5a1 1 0 001-1V9a1 1 0 10-2 0v2.586l-4.293-4.293a1 1 0 00-1.414 0L8 8.586 3.707 4.293a1 1 0 00-1.414 1.414l5 5a1 1 0 001.414 0L10 9.414l3.293 3.293A1 1 0 0012 13z" clip-rule="evenodd" /></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- INICIO: ESTADOS FINANCIEROS CON DISEÑO NUEVO -->
+
+        <!-- Estado de Resultados Sulfúrico Section -->
+        <section id="resultados-sulfurico" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Estado de Resultados Sulfúrico
+            </h2>
+            <p class="text-gray-500 pl-8 text-lg mb-4">Julio 2025 y Acumulado</p>
+            <div class="w-full overflow-x-auto rounded-lg shadow-md custom-scrollbar">
+                <table class="w-full min-w-[1000px] text-sm text-left">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-1 bg-gray-100 font-semibold">Concepto</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #0a9396; color: white;">Mes JULIO (mill. COP)</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #e9d8a6; color: #001219;">Acumulado AÑO 2025 (mill. COP)</th>
+                        </tr>
+                        <tr style="color: #001219;">
+                            <th scope="col" class="px-6 py-1 bg-gray-100"></th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs 24</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs 24</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark-blue">
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Ing. Operacionales</td><td class="px-4 py-1 text-right">7,792</td><td class="px-4 py-1 text-right">7,225</td><td class="px-4 py-1 text-right">7,196</td><td class="px-4 py-1 text-right">108%</td><td class="px-4 py-1 text-right">108%</td><td class="px-4 py-1 text-right bg-white">51,887</td><td class="px-4 py-1 text-right bg-white">50,575</td><td class="px-4 py-1 text-right bg-white">47,938</td><td class="px-4 py-1 text-right bg-white">103%</td><td class="px-4 py-1 text-right bg-white">108%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Ventas</td><td class="px-4 py-1 text-right">7,122</td><td class="px-4 py-1 text-right">6,579</td><td class="px-4 py-1 text-right">6,811</td><td class="px-4 py-1 text-right">108%</td><td class="px-4 py-1 text-right">104.6%</td><td class="px-4 py-1 text-right bg-gray-50">45,943</td><td class="px-4 py-1 text-right bg-gray-50">46,055</td><td class="px-4 py-1 text-right bg-gray-50">46,638</td><td class="px-4 py-1 text-right bg-gray-50">100%</td><td class="px-4 py-1 text-right bg-gray-50">98.5%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Ventas Vinculadas</td><td class="px-4 py-1 text-right">35</td><td class="px-4 py-1 text-right">505</td><td class="px-4 py-1 text-right">715</td><td class="px-4 py-1 text-right">7%</td><td class="px-4 py-1 text-right">5.0%</td><td class="px-4 py-1 text-right bg-white">2,963</td><td class="px-4 py-1 text-right bg-white">3,537</td><td class="px-4 py-1 text-right bg-white">4,016</td><td class="px-4 py-1 text-right bg-white">84%</td><td class="px-4 py-1 text-right bg-white">73.8%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Fletes</td><td class="px-4 py-1 text-right text-alert-orange">(704)</td><td class="px-4 py-1 text-right text-alert-orange">(683)</td><td class="px-4 py-1 text-right text-alert-orange">(659)</td><td class="px-4 py-1 text-right">-103%</td><td class="px-4 py-1 text-right">-107%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(5,034)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(4,780)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(4,519)</td><td class="px-4 py-1 text-right bg-gray-50">-105%</td><td class="px-4 py-1 text-right bg-gray-50">-111%</td></tr>
+                        <tr class="bg-white font-medium"><td class="px-6 py-1 whitespace-nowrap">Ingresos Netos</td><td class="px-4 py-1 text-right">7,089</td><td class="px-4 py-1 text-right">6,542</td><td class="px-4 py-1 text-right">6,537</td><td class="px-4 py-1 text-right">108%</td><td class="px-4 py-1 text-right">108%</td><td class="px-4 py-1 text-right bg-white">46,852</td><td class="px-4 py-1 text-right bg-white">45,795</td><td class="px-4 py-1 text-right bg-white">43,420</td><td class="px-4 py-1 text-right bg-white">102%</td><td class="px-4 py-1 text-right bg-white">108%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Costo de ventas</td><td class="px-4 py-1 text-right text-alert-orange">(4,406)</td><td class="px-4 py-1 text-right text-alert-orange">(3,912)</td><td class="px-4 py-1 text-right text-alert-orange">(2,385)</td><td class="px-4 py-1 text-right">-113%</td><td class="px-4 py-1 text-right">-185%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(29,768)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(27,385)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(24,916)</td><td class="px-4 py-1 text-right bg-gray-50">-109%</td><td class="px-4 py-1 text-right bg-gray-50">-119%</td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Ut. Bruta</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,682</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,630</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">4,153</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">102%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">65%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">17,085</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">18,410</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">18,504</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">93%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">92%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Gastos Oper.</td><td></td><td></td><td></td><td></td><td></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Gastos Ventas</td><td class="px-4 py-1 text-right text-alert-orange">(249)</td><td class="px-4 py-1 text-right text-alert-orange">(233)</td><td class="px-4 py-1 text-right text-alert-orange">(244)</td><td class="px-4 py-1 text-right">-107%</td><td class="px-4 py-1 text-right">-102%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(1,808)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(1,628)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(1,501)</td><td class="px-4 py-1 text-right bg-gray-50">-111%</td><td class="px-4 py-1 text-right bg-gray-50">-120%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Gastos Admin.</td><td class="px-4 py-1 text-right text-alert-orange">(187)</td><td class="px-4 py-1 text-right text-alert-orange">(225)</td><td class="px-4 py-1 text-right text-alert-orange">(232)</td><td class="px-4 py-1 text-right">-83%</td><td class="px-4 py-1 text-right">-81%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(1,320)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(1,575)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(1,427)</td><td class="px-4 py-1 text-right bg-white">-84%</td><td class="px-4 py-1 text-right bg-white">-93%</td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Ut. Operacional</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,247</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,172</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">3,677</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">103%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">61%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">13,956</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">15,206</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">15,576</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">92%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">90%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 whitespace-nowrap">Neto No Operacional</td><td class="px-4 py-1 text-right text-alert-orange">(185)</td><td class="px-4 py-1 text-right text-alert-orange">(72)</td><td class="px-4 py-1 text-right text-alert-orange">(52)</td><td class="px-4 py-1 text-right">-256%</td><td class="px-4 py-1 text-right">-357%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(544)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(504)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(715)</td><td class="px-4 py-1 text-right bg-white">-108%</td><td class="px-4 py-1 text-right bg-white">-76%</td></tr>
+                        <tr class="bg-gray-50 font-medium"><td class="px-6 py-1 whitespace-nowrap">Ut. Antes Imp.</td><td class="px-4 py-1 text-right">2,062</td><td class="px-4 py-1 text-right">2,100</td><td class="px-4 py-1 text-right">3,626</td><td class="px-4 py-1 text-right">98%</td><td class="px-4 py-1 text-right">57%</td><td class="px-4 py-1 text-right bg-gray-50">13,412</td><td class="px-4 py-1 text-right bg-gray-50">14,702</td><td class="px-4 py-1 text-right bg-gray-50">14,861</td><td class="px-4 py-1 text-right bg-gray-50">91%</td><td class="px-4 py-1 text-right bg-gray-50">90%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Impuesto Renta</td><td class="px-4 py-1 text-right text-alert-orange">(682)</td><td class="px-4 py-1 text-right text-alert-orange">(746)</td><td class="px-4 py-1 text-right text-alert-orange">(1,018)</td><td class="px-4 py-1 text-right">-92%</td><td class="px-4 py-1 text-right">-100%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(4,712)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(5,219)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(4,967)</td><td class="px-4 py-1 text-right bg-white">-90%</td><td class="px-4 py-1 text-right bg-white">-100%</td></tr>
+                        <tr class="font-extrabold">
+                            <td class="px-6 py-1 whitespace-nowrap" style="background-color: #0a9396; color: white;">Ut. Ejercicio</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">1,380</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">1,355</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">2,608</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">102%</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">53%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">8,700</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">9,483</td><td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">9,894</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">92%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">88%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Estado de Resultados Q.C. Colombia Section -->
+        <section id="resultados-qc" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Estado de Resultados Q.C. Colombia
+            </h2>
+            <p class="text-gray-500 pl-8 text-lg mb-4">Julio 2025 y acumulado</p>
+            <div class="w-full overflow-x-auto rounded-lg shadow-md custom-scrollbar">
+                <table class="w-full min-w-[1000px] text-sm text-left">
+                     <thead class="text-xs uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-1 bg-gray-100 font-semibold">Concepto</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #0a9396; color: white;">Mes JULIO (mill. COP)</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #e9d8a6; color: #001219;">Acumulado AÑO 2025 (mill. COP)</th>
+                        </tr>
+                        <tr style="color: #001219;">
+                            <th scope="col" class="px-6 py-1 bg-gray-100"></th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs 24</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs 24</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark-blue">
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Ing. Operacionales</td><td class="px-4 py-1 text-right">24,426</td><td class="px-4 py-1 text-right">19,662</td><td class="px-4 py-1 text-right">20,200</td><td class="px-4 py-1 text-right">124%</td><td class="px-4 py-1 text-right">121%</td><td class="px-4 py-1 text-right bg-white">154,617</td><td class="px-4 py-1 text-right bg-white">137,637</td><td class="px-4 py-1 text-right bg-white">148,160</td><td class="px-4 py-1 text-right bg-white">112%</td><td class="px-4 py-1 text-right bg-white">104%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Ventas maquila</td><td class="px-4 py-1 text-right">744</td><td class="px-4 py-1 text-right">572</td><td class="px-4 py-1 text-right">547</td><td class="px-4 py-1 text-right">130%</td><td class="px-4 py-1 text-right">135.9%</td><td class="px-4 py-1 text-right bg-gray-50">3,567</td><td class="px-4 py-1 text-right bg-gray-50">4,002</td><td class="px-4 py-1 text-right bg-gray-50">3,412</td><td class="px-4 py-1 text-right bg-gray-50">89%</td><td class="px-4 py-1 text-right bg-gray-50">104.6%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Ventas directas</td><td class="px-4 py-1 text-right">23,683</td><td class="px-4 py-1 text-right">19,091</td><td class="px-4 py-1 text-right">19,653</td><td class="px-4 py-1 text-right">124%</td><td class="px-4 py-1 text-right">120.5%</td><td class="px-4 py-1 text-right bg-white">151,050</td><td class="px-4 py-1 text-right bg-white">133,636</td><td class="px-4 py-1 text-right bg-white">144,749</td><td class="px-4 py-1 text-right bg-white"></td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Fletes</td><td class="px-4 py-1 text-right text-alert-orange">(1,001)</td><td class="px-4 py-1 text-right text-alert-orange">(1,076)</td><td class="px-4 py-1 text-right text-alert-orange">(1,175)</td><td class="px-4 py-1 text-right">-93%</td><td class="px-4 py-1 text-right">-85%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(8,195)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(7,531)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(8,050)</td><td class="px-4 py-1 text-right bg-gray-50">-109%</td><td class="px-4 py-1 text-right bg-gray-50">-102%</td></tr>
+                        <tr class="bg-white font-medium"><td class="px-6 py-1 whitespace-nowrap">Ingresos Netos</td><td class="px-4 py-1 text-right">23,425</td><td class="px-4 py-1 text-right">18,587</td><td class="px-4 py-1 text-right">19,025</td><td class="px-4 py-1 text-right">126%</td><td class="px-4 py-1 text-right">123%</td><td class="px-4 py-1 text-right bg-white">146,422</td><td class="px-4 py-1 text-right bg-white">130,107</td><td class="px-4 py-1 text-right bg-white">140,110</td><td class="px-4 py-1 text-right bg-white">113%</td><td class="px-4 py-1 text-right bg-white">105%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Costo de ventas (Maquila)</td><td class="px-4 py-1 text-right text-alert-orange">(418)</td><td class="px-4 py-1 text-right text-alert-orange">(314)</td><td class="px-4 py-1 text-right text-alert-orange">(295)</td><td class="px-4 py-1 text-right">-142%</td><td class="px-4 py-1 text-right">-142%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2,032)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2,201)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2,020)</td><td class="px-4 py-1 text-right bg-gray-50">-101%</td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Costo de ventas (Directas)</td><td class="px-4 py-1 text-right text-alert-orange">(19,051)</td><td class="px-4 py-1 text-right text-alert-orange">(15,403)</td><td class="px-4 py-1 text-right text-alert-orange">(15,758)</td><td class="px-4 py-1 text-right">-124%</td><td class="px-4 py-1 text-right">-121%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(122,564)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(107,821)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(114,313)</td><td class="px-4 py-1 text-right bg-white">-114%</td><td class="px-4 py-1 text-right bg-white">-107%</td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Ut. Bruta</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">3,956</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,869</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,972</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">138%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">133%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">21,826</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">20,086</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">23,777</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">109%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">92%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Gastos Oper.</td><td></td><td></td><td></td><td></td><td></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Gastos Ventas</td><td class="px-4 py-1 text-right text-alert-orange">(488)</td><td class="px-4 py-1 text-right text-alert-orange">(323)</td><td class="px-4 py-1 text-right text-alert-orange">(282)</td><td class="px-4 py-1 text-right">-151%</td><td class="px-4 py-1 text-right">-173%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2,415)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2,258)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2,227)</td><td class="px-4 py-1 text-right bg-gray-50">-107%</td><td class="px-4 py-1 text-right bg-gray-50">-108%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Gastos Admin.</td><td class="px-4 py-1 text-right text-alert-orange">(140)</td><td class="px-4 py-1 text-right text-alert-orange">(135)</td><td class="px-4 py-1 text-right text-alert-orange">(70)</td><td class="px-4 py-1 text-right">-103%</td><td class="px-4 py-1 text-right">-199%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(922)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(948)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(697)</td><td class="px-4 py-1 text-right bg-white">-97%</td><td class="px-4 py-1 text-right bg-white">-132%</td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Ut. Operacional</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">3,328</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,411</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2,620</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">138%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">127%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">18,489</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">16,880</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">20,853</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">110%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">89%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 whitespace-nowrap">Neto No Operacional</td><td class="px-4 py-1 text-right text-alert-orange">(1,146)</td><td class="px-4 py-1 text-right text-alert-orange">(852)</td><td class="px-4 py-1 text-right text-alert-orange">(1,151)</td><td class="px-4 py-1 text-right">-134%</td><td class="px-4 py-1 text-right">-100%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(7,233)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(5,964)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(7,618)</td><td class="px-4 py-1 text-right bg-white">-121%</td><td class="px-4 py-1 text-right bg-white">-95%</td></tr>
+                        <tr class="bg-gray-50 font-medium"><td class="px-6 py-1 whitespace-nowrap">Ut. Antes Imp.</td><td class="px-4 py-1 text-right">2,182</td><td class="px-4 py-1 text-right">1,559</td><td class="px-4 py-1 text-right">1,468</td><td class="px-4 py-1 text-right">140%</td><td class="px-4 py-1 text-right">149%</td><td class="px-4 py-1 text-right bg-gray-50">11,255</td><td class="px-4 py-1 text-right bg-gray-50">10,916</td><td class="px-4 py-1 text-right bg-gray-50">13,235</td><td class="px-4 py-1 text-right bg-gray-50">103%</td><td class="px-4 py-1 text-right bg-gray-50">85%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Impuesto Renta</td><td class="px-4 py-1 text-right text-alert-orange">(757)</td><td class="px-4 py-1 text-right text-alert-orange">(554)</td><td class="px-4 py-1 text-right text-alert-orange">(521)</td><td class="px-4 py-1 text-right">-137%</td><td class="px-4 py-1 text-right">-100%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(3,729)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(3,875)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(4,683)</td><td class="px-4 py-1 text-right bg-white">-96%</td><td class="px-4 py-1 text-right bg-white">-100%</td></tr>
+                        <tr class="font-extrabold">
+                            <td class="px-6 py-1 whitespace-nowrap" style="background-color: #0a9396; color: white;">Ut. Ejercicio</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">1,425</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">1,006</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">947</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">142%</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">150%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">7,526</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">7,041</td><td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">8,552</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">107%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">88%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+                
+        <!-- Estado de Resultados Ecovitta Section -->
+        <section id="resultados-ecovitta" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Estado de Resultados Ecovitta
+            </h2>
+            <p class="text-gray-500 pl-8 text-lg mb-4">Julio 2025 y acumulado</p>
+            <div class="w-full overflow-x-auto rounded-lg shadow-md custom-scrollbar">
+                <table class="w-full min-w-[1000px] text-sm text-left">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-1 bg-gray-100 font-semibold">Concepto</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #0a9396; color: white;">Mes JULIO (mill. COP)</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #e9d8a6; color: #001219;">Acumulado AÑO 2025 (mill. COP)</th>
+                        </tr>
+                        <tr style="color: #001219;">
+                            <th scope="col" class="px-6 py-1 bg-gray-100"></th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs 24</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs 24</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark-blue">
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Ing. Operacionales</td><td class="px-4 py-1 text-right">469</td><td class="px-4 py-1 text-right">458</td><td class="px-4 py-1 text-right">327</td><td class="px-4 py-1 text-right">102%</td><td class="px-4 py-1 text-right">143%</td><td class="px-4 py-1 text-right bg-white">2,877</td><td class="px-4 py-1 text-right bg-white">3,205</td><td class="px-4 py-1 text-right bg-white">1,002</td><td class="px-4 py-1 text-right bg-white">90%</td><td class="px-4 py-1 text-right bg-white">287%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Fletes</td><td class="px-4 py-1 text-right text-alert-orange">(28)</td><td class="px-4 py-1 text-right text-alert-orange">(50)</td><td class="px-4 py-1 text-right text-alert-orange">(32)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(172)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(354)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(90)</td><td class="px-4 py-1 text-right bg-gray-50"></td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="bg-white font-medium"><td class="px-6 py-1 whitespace-nowrap">Ingresos Netos</td><td class="px-4 py-1 text-right">441</td><td class="px-4 py-1 text-right">407</td><td class="px-4 py-1 text-right">295</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right bg-white">2,705</td><td class="px-4 py-1 text-right bg-white">2,851</td><td class="px-4 py-1 text-right bg-white">912</td><td class="px-4 py-1 text-right bg-white"></td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Costo de ventas</td><td class="px-4 py-1 text-right text-alert-orange">(312)</td><td class="px-4 py-1 text-right text-alert-orange">(280)</td><td class="px-4 py-1 text-right text-alert-orange">(189)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(1,841)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(1,958)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(608)</td><td class="px-4 py-1 text-right bg-gray-50"></td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Ut. Bruta</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">129</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">128</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">106</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">101%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">122%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">864</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">893</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">304</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">97%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">285%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Gastos Oper.</td><td></td><td></td><td></td><td></td><td></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Gastos Ventas</td><td class="px-4 py-1 text-right text-alert-orange">(1)</td><td class="px-4 py-1 text-right text-alert-orange">(3)</td><td class="px-4 py-1 text-right text-alert-orange">(0)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(48)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(20)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(2)</td><td class="px-4 py-1 text-right bg-gray-50"></td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Gastos Admin.</td><td class="px-4 py-1 text-right text-alert-orange">(13)</td><td class="px-4 py-1 text-right text-alert-orange">(10)</td><td class="px-4 py-1 text-right text-alert-orange">(9)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-white">(86)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(70)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(65)</td><td class="px-4 py-1 text-right bg-white"></td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Ut. Operacional</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">116</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">115</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">97</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">101%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">119%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">730</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">802</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">237</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">91%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">308%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 whitespace-nowrap">Neto No Operacional</td><td class="px-4 py-1 text-right text-alert-orange">(4)</td><td class="px-4 py-1 text-right">0</td><td class="px-4 py-1 text-right text-alert-orange">(1)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-white">(12)</td><td class="px-4 py-1 text-right">1</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(4)</td><td class="px-4 py-1 text-right bg-white"></td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="bg-gray-50 font-medium"><td class="px-6 py-1 whitespace-nowrap">Ut. Antes Imp.</td><td class="px-4 py-1 text-right">112</td><td class="px-4 py-1 text-right">115</td><td class="px-4 py-1 text-right">96</td><td class="px-4 py-1 text-right">97%</td><td class="px-4 py-1 text-right">116%</td><td class="px-4 py-1 text-right bg-gray-50">719</td><td class="px-4 py-1 text-right bg-gray-50">803.8</td><td class="px-4 py-1 text-right bg-gray-50">233</td><td class="px-4 py-1 text-right bg-gray-50">89%</td><td class="px-4 py-1 text-right bg-gray-50">309%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Impuesto sobre la Renta</td><td class="px-4 py-1 text-right text-alert-orange">(20)</td><td class="px-4 py-1 text-right text-alert-orange">(20.1)</td><td class="px-4 py-1 text-right text-alert-orange">(8)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-white">(126)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(140.67)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(28)</td><td class="px-4 py-1 text-right bg-white"></td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="font-extrabold">
+                            <td class="px-6 py-1 whitespace-nowrap" style="background-color: #0a9396; color: white;">Ut. Ejercicio</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">92</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">95</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">88</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">97%</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">105%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">593</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">663</td><td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">213</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">89%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">279%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Estado de Resultados Consolidado Section -->
+        <section id="resultados-consolidado" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Estado de Resultados Consolidado Colombia
+                <svg width="24" height="15" viewBox="0 0 20 12" class="ml-2">
+                    <rect width="20" height="12" fill="#FCD116"/>
+                    <rect y="6" width="20" height="3" fill="#003893"/>
+                    <rect y="9" width="20" height="3" fill="#CE1126"/>
+                </svg>
+            </h2>
+            <p class="text-gray-500 pl-8 text-lg mb-4">Julio 2025 y Acumulado</p>
+            <div class="w-full overflow-x-auto rounded-lg shadow-md custom-scrollbar">
+                <table class="w-full min-w-[1000px] text-sm text-left">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-1 bg-gray-100 font-semibold">Concepto</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #0a9396; color: white;">Mes JULIO (mill. COP)</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="5" style="background-color: #e9d8a6; color: #001219;">Acumulado AÑO 2025 (mill. COP)</th>
+                        </tr>
+                        <tr style="color: #001219;">
+                            <th scope="col" class="px-6 py-1 bg-gray-100"></th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs 24</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2024</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs 24</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark-blue">
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Ingresos Operacionales</td><td class="px-4 py-1 text-right">32,688</td><td class="px-4 py-1 text-right">27,345</td><td class="px-4 py-1 text-right">27,724</td><td class="px-4 py-1 text-right">120%</td><td class="px-4 py-1 text-right">118%</td><td class="px-4 py-1 text-right bg-white">209,380</td><td class="px-4 py-1 text-right bg-white">191,417</td><td class="px-4 py-1 text-right bg-white">197,100</td><td class="px-4 py-1 text-right bg-white">109%</td><td class="px-4 py-1 text-right bg-white">106%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Fletes</td><td class="px-4 py-1 text-right text-alert-orange">(1,733)</td><td class="px-4 py-1 text-right text-alert-orange">(1,809)</td><td class="px-4 py-1 text-right text-alert-orange">(1,867)</td><td class="px-4 py-1 text-right">-96%</td><td class="px-4 py-1 text-right">-93%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(13,401)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(12,664)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(12,659)</td><td class="px-4 py-1 text-right bg-gray-50">-106%</td><td class="px-4 py-1 text-right bg-gray-50">-106%</td></tr>
+                        <tr class="bg-white font-medium"><td class="px-6 py-1 whitespace-nowrap">Neto Ingresos Operacionales</td><td class="px-4 py-1 text-right">30,955</td><td class="px-4 py-1 text-right">25,536</td><td class="px-4 py-1 text-right">25,857</td><td class="px-4 py-1 text-right">121%</td><td class="px-4 py-1 text-right">120%</td><td class="px-4 py-1 text-right bg-white">195,979</td><td class="px-4 py-1 text-right bg-white">178,753</td><td class="px-4 py-1 text-right bg-white">184,441</td><td class="px-4 py-1 text-right bg-white">110%</td><td class="px-4 py-1 text-right bg-white">106%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Costo de ventas</td><td class="px-4 py-1 text-right text-alert-orange">(24,187)</td><td class="px-4 py-1 text-right text-alert-orange">(19,909)</td><td class="px-4 py-1 text-right text-alert-orange">(18,626)</td><td class="px-4 py-1 text-right">-121%</td><td class="px-4 py-1 text-right">-130%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(156,205)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(139,364)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(141,857)</td><td class="px-4 py-1 text-right bg-gray-50">-112%</td><td class="px-4 py-1 text-right bg-gray-50">-110%</td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Utilidad Bruta</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">6,768</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">5,627</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">7,231</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">120%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">94%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">39,775</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">39,389</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">42,584</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">101%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">93%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Gastos Operacionales</td><td></td><td></td><td></td><td></td><td></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Operacionales de ventas propios</td><td class="px-4 py-1 text-right text-alert-orange">(737)</td><td class="px-4 py-1 text-right text-alert-orange">(558)</td><td class="px-4 py-1 text-right text-alert-orange">(525)</td><td class="px-4 py-1 text-right">-132%</td><td class="px-4 py-1 text-right">-140%</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(4,271)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(3,906)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(3,729)</td><td class="px-4 py-1 text-right bg-gray-50">-109%</td><td class="px-4 py-1 text-right bg-gray-50">-115%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Operacionales de Administración</td><td class="px-4 py-1 text-right text-alert-orange">(339)</td><td class="px-4 py-1 text-right text-alert-orange">(371)</td><td class="px-4 py-1 text-right text-alert-orange">(311)</td><td class="px-4 py-1 text-right">-92%</td><td class="px-4 py-1 text-right">-109%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(2,328)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(2,594)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(2,189)</td><td class="px-4 py-1 text-right bg-white">-90%</td><td class="px-4 py-1 text-right bg-white">-106%</td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Utilidad Operacional</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">5,691</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">4,698</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">6,394</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">121%</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">89%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">33,175</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">32,889</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">36,666</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">101%</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;">90%</td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 whitespace-nowrap">Neto Ingresos y Egresos NO Operacionales</td><td class="px-4 py-1 text-right text-alert-orange">(1,334)</td><td class="px-4 py-1 text-right text-alert-orange">(924)</td><td class="px-4 py-1 text-right text-alert-orange">(1,204)</td><td class="px-4 py-1 text-right">-144%</td><td class="px-4 py-1 text-right">-111%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(7,789)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(6,467)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(8,338)</td><td class="px-4 py-1 text-right bg-white">-120%</td><td class="px-4 py-1 text-right bg-white">-93%</td></tr>
+                        <tr class="bg-gray-50 font-medium"><td class="px-6 py-1 whitespace-nowrap">Utilidad Antes de Impuestos</td><td class="px-4 py-1 text-right">4,356</td><td class="px-4 py-1 text-right">3,775</td><td class="px-4 py-1 text-right">5,190</td><td class="px-4 py-1 text-right">115%</td><td class="px-4 py-1 text-right">84%</td><td class="px-4 py-1 text-right bg-gray-50">25,386</td><td class="px-4 py-1 text-right bg-gray-50">26,422</td><td class="px-4 py-1 text-right bg-gray-50">28,329</td><td class="px-4 py-1 text-right bg-gray-50">96%</td><td class="px-4 py-1 text-right bg-gray-50">90%</td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Impuesto sobre la Renta</td><td class="px-4 py-1 text-right text-alert-orange">(1,459)</td><td class="px-4 py-1 text-right text-alert-orange">(1,319)</td><td class="px-4 py-1 text-right text-alert-orange">(1,547)</td><td class="px-4 py-1 text-right">-111%</td><td class="px-4 py-1 text-right">-100%</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(8,567)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(9,235)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(9,670)</td><td class="px-4 py-1 text-right bg-white">-93%</td><td class="px-4 py-1 text-right bg-white">-100%</td></tr>
+                        <tr class="font-extrabold">
+                            <td class="px-6 py-1 whitespace-nowrap" style="background-color: #0a9396; color: white;">Utilidad en el Ejercicio</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">2,898</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">2,455</td><td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">3,643</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">118%</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;">80%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">16,819</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">17,187</td><td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">18,659</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">98%</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;">90%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Estado de Resultados QCMX Section -->
+        <section id="resultados-qcmx" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                Estado de Resultados QCMX (miles USD)
+                <svg width="24" height="15" viewBox="0 0 20 12" class="ml-2"><rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#006847"/><rect x="13.33" width="6.66" height="12" fill="#ce1126"/></svg>
+            </h2>
+            <div class="overflow-x-auto rounded-lg shadow-md custom-scrollbar mx-auto" style="max-width: 950px;">
+                <table class="w-full min-w-[600px] text-sm text-left">
+                    <thead class="text-xs uppercase">
+                        <tr>
+                            <th scope="col" class="px-6 py-1 bg-gray-100 font-semibold">Concepto</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="3" style="background-color: #0a9396; color: white;">Mes JULIO (miles USD)</th>
+                            <th scope="col" class="text-center py-1 font-semibold" colspan="3" style="background-color: #e9d8a6; color: #001219;">Acumulado AÑO 2025 (miles USD)</th>
+                        </tr>
+                        <tr style="color: #001219;">
+                            <th scope="col" class="px-6 py-1 bg-gray-100"></th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #e6f4f4;">% vs P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">2025P</th>
+                            <th scope="col" class="px-4 py-1 text-right" style="background-color: #faf6e9;">% vs P</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-dark-blue">
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Total Ingresos Operacionales</td><td class="px-4 py-1 text-right">1,114</td><td class="px-4 py-1 text-right">936</td><td class="px-4 py-1 text-right">119%</td><td class="px-4 py-1 text-right bg-white">4,112</td><td class="px-4 py-1 text-right bg-white">4,009</td><td class="px-4 py-1 text-right bg-white">103%</td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Costo de ventas</td><td class="px-4 py-1 text-right text-alert-orange">(1,092)</td><td class="px-4 py-1 text-right text-alert-orange">(906)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(4,349)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(4,303)</td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Utilidad Bruta</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">22</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">30</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;"></td><td class="px-4 py-1 text-right text-alert-orange" style="background-color: #faf6e9;">(237)</td><td class="px-4 py-1 text-right text-alert-orange" style="background-color: #faf6e9;">(294)</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;"></td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 font-semibold whitespace-nowrap">Gastos Operacionales</td><td></td><td></td><td></td><td class="bg-white"></td><td class="bg-white"></td><td class="bg-white"></td></tr>
+                        <tr class="bg-gray-50"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Operacionales de ventas propios</td><td class="px-4 py-1 text-right text-alert-orange">(20)</td><td class="px-4 py-1 text-right text-alert-orange">(22)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(80)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(153)</td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Operacionales de Administración</td><td class="px-4 py-1 text-right text-alert-orange">(14)</td><td class="px-4 py-1 text-right text-alert-orange">(5)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-white">(76)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(38)</td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="font-bold" style="color:#001219;"><td class="px-6 py-1 whitespace-nowrap" style="background-color: #e6f4f4;">Utilidad Operacional</td><td class="px-4 py-1 text-right text-alert-orange" style="background-color: #e6f4f4;">(12)</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;">3</td><td class="px-4 py-1 text-right" style="background-color: #e6f4f4;"></td><td class="px-4 py-1 text-right text-alert-orange" style="background-color: #faf6e9;">(393)</td><td class="px-4 py-1 text-right text-alert-orange" style="background-color: #faf6e9;">(486)</td><td class="px-4 py-1 text-right" style="background-color: #faf6e9;"></td></tr>
+                        <tr class="bg-white"><td class="px-6 py-1 whitespace-nowrap">Neto Ingresos y Egresos NO Operacionales</td><td class="px-4 py-1 text-right text-alert-orange">(6)</td><td class="px-4 py-1 text-right text-alert-orange">(32)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right bg-white">184</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(223)</td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="bg-gray-50 font-medium"><td class="px-6 py-1 whitespace-nowrap">Utilidad Antes de Impuestos</td><td class="px-4 py-1 text-right text-alert-orange">(18)</td><td class="px-4 py-1 text-right text-alert-orange">(29)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right bg-gray-50 text-alert-orange">(209)</td><td class="px-4 py-1 text-right text-alert-orange bg-gray-50">(709)</td><td class="px-4 py-1 text-right bg-gray-50"></td></tr>
+                        <tr class="bg-white"><td class="pl-8 px-6 py-1 whitespace-nowrap">- Impuesto sobre la Renta</td><td class="px-4 py-1 text-right text-alert-orange">(5)</td><td class="px-4 py-1 text-right text-alert-orange">(8.7)</td><td class="px-4 py-1 text-right"></td><td class="px-4 py-1 text-right text-alert-orange bg-white">(63)</td><td class="px-4 py-1 text-right text-alert-orange bg-white">(213)</td><td class="px-4 py-1 text-right bg-white"></td></tr>
+                        <tr class="font-extrabold">
+                            <td class="px-6 py-1 whitespace-nowrap" style="background-color: #0a9396; color: white;">Utilidad en el Ejercicio</td>
+                            <td class="px-4 py-1 text-right text-alert-orange" style="background-color: #0a9396; color: white;">(13)</td>
+                            <td class="px-4 py-1 text-right text-alert-orange" style="background-color: #0a9396; color: white;">(20)</td>
+                            <td class="px-4 py-1 text-right" style="background-color: #0a9396; color: white;"></td>
+                            <td class="px-4 py-1 text-right font-bold text-alert-orange" style="background-color: #e9d8a6; color: #001219;">(146)</td>
+                            <td class="px-4 py-1 text-right font-bold text-alert-orange" style="background-color: #e9d8a6; color: #001219;">(496)</td>
+                            <td class="px-4 py-1 text-right font-bold" style="background-color: #e9d8a6; color: #001219;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FIN: ESTADOS FINANCIEROS CON DISEÑO NUEVO -->
+
+        <section id="logros-desafios" class="mb-8">
+             <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                Logros y Desafíos
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="card p-6 bg-blue-subtle border-l-4 border-primary-blue">
+                    <h3 class="font-bold text-xl text-primary-blue mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                        Oportunidades y Logros
+                    </h3>
+                    <ul class="space-y-2 text-dark-blue">
+                        <li class="flex items-start"><span class="font-bold mr-2">Operación México <svg width="20" height="12" viewBox="0 0 20 12" class="ml-2 inline-block"><rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#006847"/><rect x="13.33" width="6.66" height="12" fill="#ce1126"/></svg>:</span> Continuamos observando un desempeño y un potencial superior a lo presupuestado.</li>
+                        <li class="flex items-start"><span class="font-bold mr-2">🌱 ECOVITA:</span> Consolidando Colombia y observando un  alto potencial en mercado mexicano.</li>
+                        <li class="flex items-start"><span class="font-bold mr-2">💰 Rentabilidad (Sulfúrico):</span> Rentabilidad presupuestada no está siendo soportada por el mercado. Las fuerzas de la competencia nos están llevando a reducir nuestra rentabilidad, para lograr mantener nuestros volúmenes. </li>
+                        <li class="flex items-start"><span class="font-bold mr-2">✨ LESS:</span> Continuamos con la capacidad a tope y con excelente desempeño.</li>
+                    </ul>
+                </div>
+                <div class="card p-6 bg-orange-subtle border-l-4 border-alert-orange">
+                    <h3 class="font-bold text-xl text-alert-orange mb-3 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        Desafíos y Alertas
+                    </h3>
+                    <ul class="space-y-2 text-dark-blue">
+                        <li class="flex items-start"><span class="font-bold mr-2">📉 Entorno:</span> Desaceleración generalizada del sector industrial. </li>
+                        <li class="flex items-start"><span class="font-bold mr-2">⚔️ Competencia (Sulfúrico):</span> Fuerte presión en precios por parte de MONÓMEROS.</li>
+                        <li class="flex items-start"><span class="font-bold mr-2">🆕 Competencia (Surfactantes):</span> Además de la entrada de LA VICTORIA, UNILEVER traerá su LAS desde UL Ecuador.</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="desempeno-linea" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                Desempeño por Línea de Negocio
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="card p-6"><h3 class="font-bold text-xl mb-3 flex items-center">🧪 Ácido Sulfúrico</h3><div class="mb-3"><div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Cumplimiento vs Ppto. (Vol)</span><span class="text-lg font-bold">100%</span></div><div class="progress-bar w-full h-4"><div class="progress-bar-inner bg-primary-blue" style="width: 100%;">100%</div></div></div><p class="text-sm text-gray-600">Volumen estable. Rentabilidad protegida por gestión de compras.</p></div>
+                <div class="card p-6"><h3 class="font-bold text-xl mb-3 flex items-center">🧼 Surfactantes (LAS)</h3><div class="mb-3"><div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Cumplimiento vs Ppto. (Vol)</span><span class="text-lg font-bold text-primary-blue">106%</span></div><div class="progress-bar w-full h-4"><div class="progress-bar-inner bg-primary-blue" style="width: 100%;">106%</div></div></div><p class="text-sm text-gray-600">Algunos clientes se aprovisionaron de producto para nuestra parada general.</p></div>
+                <div class="card p-6"><h3 class="font-bold text-xl mb-3 flex items-center">✨ Surfactantes (LESS)</h3><div class="mb-3"><div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Cumplimiento vs Ppto. (Vol)</span><span class="text-lg font-bold text-primary-blue">112%</span></div><div class="progress-bar w-full h-4"><div class="progress-bar-inner bg-primary-blue" style="width: 100%;">112%</div></div></div><p class="text-sm text-gray-600">Volumen superior, con reducción de margen para defender posición.</p></div>
+                <div class="card p-6"><h3 class="font-bold text-xl mb-3 flex items-center">Operación México <svg width="24" height="15" viewBox="0 0 20 12" class="ml-2"><rect width="20" height="12" fill="#fff"/><rect width="6.66" height="12" fill="#006847"/><rect x="13.33" width="6.66" height="12" fill="#ce1126"/></svg></h3><div class="mb-3"><div class="flex justify-between items-center mb-1"><span class="text-sm font-medium">Cumplimiento vs Ppto. (Volumen Total)</span><span class="text-lg font-bold text-primary-blue">136%</span></div><div class="progress-bar w-full h-4"><div class="progress-bar-inner bg-primary-blue" style="width: 100%;">136%</div></div></div><p class="text-sm text-gray-600">Planta operando perfectamente y desarrollo comercial superando expectativas.</p></div>
+            </div>
+        </section>
+        
+        <!-- Cartera Section -->
+        <section id="cartera-colombia" class="mb-8">
+            <h2 class="text-2xl font-bold text-dark-blue mb-4 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                Análisis estado de Cartera - Colombia
+            </h2>
+            <div class="w-full mt-4">
+                <!-- Gráfico y Leyenda -->
+                <div>
+                    <div class="overflow-x-auto shadow-lg rounded-lg">
+                        <div class="relative bg-slate-50 p-4" style="height: 400px; min-width: 700px;">
+                            <canvas id="portfolioChart"></canvas>
+                        </div>
+                    </div>
+                    <div id="chart-legend" class="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 p-4 mt-4">
+                        <!-- La leyenda del gráfico se genera aquí con JS -->
+                    </div>
+                </div>
+
+                <!-- Indicadores Clave -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-dark-blue mb-4">Indicadores Clave</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="kpi-card border-primary-blue">
+                            <p class="text-lg font-medium text-gray-500">Cartera Sana (jul-25)</p>
+                            <p class="text-4xl font-extrabold text-primary-blue" id="kpi-sana-pct"></p>
+                            <p class="text-sm text-gray-500">(Corriente y hasta 30 días de vencida)</p>
+                        </div>
+                        <div class="kpi-card border-accent-orange">
+                            <p class="text-lg font-medium text-gray-500">Cartera Total (jul-25)</p>
+                            <p class="text-4xl font-extrabold text-accent-orange" id="kpi-total-val"></p>
+                            <p class="text-sm text-gray-500">(en Millones de COP)</p>
+                        </div>
+                        <div class="kpi-card" style="border-color: #E53935;">
+                            <p class="text-lg font-medium text-gray-500">Días de Cartera (jul-25)</p>
+                            <p class="text-4xl font-extrabold" id="kpi-dias-cartera" style="color: #E53935;"></p>
+                            <p class="text-sm text-gray-500">Promedio de cobro</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <div class="bg-blue-subtle p-4 rounded-lg card mb-8">
+                        <h4 class="font-semibold text-dark-blue">Conclusión y Tendencia</h4>
+                        <p class="text-sm text-dark-blue mt-2">El indicador de "Cartera Sana" ha mostrado una ligera disminución en los últimos meses, situándose en un 93% en Julio. Aunque sigue siendo un porcentaje saludable, es importante monitorear esta tendencia para asegurar que la gestión de crédito y cobranza se mantenga efectiva y evitar un mayor deterioro.</p>
+                    </div>
+                </div>
+
+                <!-- Tabla de Datos -->
+                <div class="mt-8 overflow-x-auto rounded-lg shadow-md border">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-gray-100">
+                            <tr id="table-header">
+                                <!-- Headers se llenan con JS -->
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white" id="table-body">
+                            <!-- Filas se llenan con JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Plugin para dibujar el fondo del área del gráfico
+        const chartAreaBackgroundColor = {
+            id: 'chartAreaBackgroundColor',
+            beforeDraw(chart, args, options) {
+                const {ctx, chartArea: {top, bottom, left, right, width, height}} = chart;
+                ctx.save();
+                ctx.fillStyle = options.color || '#f1f5f9'; // Color de fondo (slate-100)
+                ctx.fillRect(left, top, width, height);
+                ctx.restore();
+            }
+        };
+
+        Chart.register(ChartDataLabels, chartAreaBackgroundColor);
+
+        // Paleta de colores ampliada y con más contraste
+        const colorPalette = {
+            lineaSana:   '#E53935', // Rojo intenso para contraste
+            corriente:   '#023047', // Azul Oscuro
+            de1a30:      '#219ebc', // Azul Primario
+            de31a60:     '#8ecae6', // Azul Claro
+            de61a90:     '#ffb703', // Amarillo/Mostaza
+            de91a120:    '#8e44ad', // Morado
+        };
+        
+        // DATOS ACTUALIZADOS PARA JULIO 2025
+        const portfolioData = {
+            months: ['ago-24', 'sep-24', 'oct-24', 'nov-24', 'dic-24', 'ene-25', 'feb-25', 'mar-25', 'abr-25', 'may-25', 'jun-25', 'jul-25'],
+            cartera: {
+                corriente: [63500, 62500, 63000, 61000, 61000, 63500, 62500, 63000, 66000, 61500, 55024, 63765],
+                de1a30:    [6000, 6500, 6500, 6500, 7500, 9500, 9500, 9500, 12500, 11000, 10952, 12472],
+                de31a60:   [2500, 2500, 2500, 2500, 3500, 2500, 3500, 1500, 2000, 4000, 5694, 3644],
+                de61a90:   [1000, 1200, 1000, 1200, 1500, 1200, 1000, 1000, 1000, 1100, 1315, 1322],
+                de91a120:  [328, 283, 230, 311, 477, 474, 507, 562, 587, 869, 830, 963],
+            },
+            pctSana: [96, 96, 96, 95, 94, 95, 94, 96, 96, 94, 94, 93],
+            diasCartera: [72, 73, 71, 73, 73, 73, 69, 67, 75, 73, 74, 74],
+            totalVentas: [30025, 29703, 32841, 30562, 27416, 32170, 32601, 33996, 31918, 29386, 27319, 31851],
+        };
+        
+        const totalCartera = portfolioData.months.map((_, i) => Object.values(portfolioData.cartera).reduce((sum, arr) => sum + arr[i], 0));
+
+        const formatCurrency = (value) => new Intl.NumberFormat('es-CO', { style: 'decimal', maximumFractionDigits: 0 }).format(value);
+        
+        // --- KPI Cards ---
+        document.getElementById('kpi-sana-pct').textContent = `${portfolioData.pctSana.slice(-1)[0]}%`;
+        document.getElementById('kpi-total-val').textContent = `$${formatCurrency(totalCartera.slice(-1)[0])}`;
+        document.getElementById('kpi-dias-cartera').textContent = `${portfolioData.diasCartera.slice(-1)[0]}`;
+        
+        const datasets = [
+            { type: 'line', label: 'Cartera Sana (%)', data: portfolioData.pctSana, borderColor: colorPalette.lineaSana, backgroundColor: 'rgba(229, 57, 53, 0.1)', borderWidth: 3, fill: true, tension: 0.3, yAxisID: 'y1', pointRadius: 4, pointBackgroundColor: colorPalette.lineaSana, datalabels: { align: 'end', anchor: 'end', color: colorPalette.lineaSana, font: { weight: 'bold' }, formatter: (value) => `${value}%` } },
+            { type: 'bar', label: 'Corriente', data: portfolioData.cartera.corriente, backgroundColor: colorPalette.corriente, stack: 'Cartera' },
+            { type: 'bar', label: '1 a 30 días', data: portfolioData.cartera.de1a30, backgroundColor: colorPalette.de1a30, stack: 'Cartera' },
+            { type: 'bar', label: '31 a 60 días', data: portfolioData.cartera.de31a60, backgroundColor: colorPalette.de31a60, stack: 'Cartera' },
+            { type: 'bar', label: '61 a 90 días', data: portfolioData.cartera.de61a90, backgroundColor: colorPalette.de61a90, stack: 'Cartera' },
+            { type: 'bar', label: '> 90 días', data: portfolioData.cartera.de91a120, backgroundColor: colorPalette.de91a120, stack: 'Cartera' },
+        ];
+        
+        const legendContainer = document.getElementById('chart-legend');
+        legendContainer.innerHTML = ''; // Limpiar leyenda
+        datasets.forEach(ds => {
+            let color = ds.borderColor || ds.backgroundColor;
+            let style = ds.type === 'line' ? `border: 2px solid ${color}; background-color: transparent;` : `background-color: ${color};`;
+            legendContainer.innerHTML += `<div class="legend-item"><span class="legend-dot" style="${style}"></span>${ds.label}</div>`;
+        });
+        
+        const portfolioCtx = document.getElementById('portfolioChart').getContext('2d');
+        new Chart(portfolioCtx, {
+            data: { labels: portfolioData.months, datasets: datasets },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { 
+                    chartAreaBackgroundColor: {
+                        color: '#f1f5f9' // Color de fondo para el area del grafico
+                    },
+                    legend: { display: false }, 
+                    tooltip: { mode: 'index', intersect: false }, 
+                    datalabels: { display: false } 
+                },
+                scales: {
+                    x: { stacked: true, grid: { display: false }, ticks: {color: 'var(--color-dark-blue)', font: { size: 12 }}},
+                    y: { 
+                        stacked: true, 
+                        beginAtZero: true, 
+                        grid: { color: '#e5e7eb' }, 
+                        ticks: { 
+                            callback: value => (value / 1000) + 'K', 
+                            color: 'var(--color-dark-blue)', 
+                            font: { size: 14 },
+                            precision: 0 
+                        }, 
+                        title: { 
+                            display: true, 
+                            text: 'Valor Cartera (Millones COP)', 
+                            color: 'var(--color-dark-blue)',
+                            font: { size: 14 } 
+                        },
+                    },
+                    y1: { 
+                        type: 'linear', 
+                        position: 'right', 
+                        min: 80, 
+                        max: 100, 
+                        grid: { display: false }, 
+                        ticks: { 
+                            callback: value => value + '%', 
+                            color: 'var(--color-dark-blue)',
+                            font: { size: 14 }
+                        }, 
+                        title: { 
+                            display: true, 
+                            text: '% Cartera Sana', 
+                            color: 'var(--color-dark-blue)',
+                            font: { size: 14 }
+                        } 
+                    }
+                }
+            }
+        });
+
+        // --- DATA TABLE LOGIC ---
+        const tableHeader = document.getElementById('table-header');
+        const tableBody = document.getElementById('table-body');
+        tableHeader.innerHTML = '<th class="px-6 py-3 font-semibold text-dark-blue">Métrica</th>'; // Limpiar
+        portfolioData.months.forEach(month => {
+            tableHeader.innerHTML += `<th class="px-4 py-3 font-semibold text-dark-blue text-center">${month}</th>`;
+        });
+
+        const createRow = (title, data, formatter, index) => {
+            const bgColorClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+            let rowHtml = `<tr class="${bgColorClass} hover:bg-blue-subtle"><td class="px-6 py-2 font-semibold text-dark-blue whitespace-nowrap">${title}</td>`;
+            data.forEach(val => {
+                rowHtml += `<td class="px-4 py-2 text-dark-blue text-center whitespace-nowrap">${formatter(val)}</td>`;
+            });
+            rowHtml += '</tr>';
+            return rowHtml;
+        };
+        
+        tableBody.innerHTML = ''; // Limpiar
+        tableBody.innerHTML += createRow('Días de Cartera', portfolioData.diasCartera, (val) => val.toFixed(1), 0);
+        tableBody.innerHTML += createRow('Total Ventas', portfolioData.totalVentas, formatCurrency, 1);
+        tableBody.innerHTML += createRow('Total Cartera', totalCartera, formatCurrency, 2);
+
+    });
+</script>
+</body>
+</html>
